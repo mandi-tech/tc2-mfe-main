@@ -1,0 +1,24 @@
+.container-saldo {
+  color: #ffff;
+  min-height: 30vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+
+  h1,
+  h2,
+  h3 {
+    color: #ffff;
+    margin: 0;
+  }
+
+  .data-atual {
+    padding-top: 10px;
+    margin: 0;
+  }
+
+  .saldo-box {
+    margin: 0 auto;
+    padding-top: 20px;
+  }
+}

@@ -1,0 +1,21 @@
+.topbar-container {
+  display: flex;
+  justify-content: flex-end;
+
+  height: 60px;
+  background-color: #004d61;
+  padding: 0 20px;
+
+  .topbar-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    h4 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      color: #ffff;
+    }
+  }
+}

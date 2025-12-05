@@ -1,0 +1,11 @@
+main {
+  background-color: #e4ede3;
+  height: 100vh;
+
+  section {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: 1fr 5fr 2fr;
+    padding: 5vh 10vw;
+  }
+}
