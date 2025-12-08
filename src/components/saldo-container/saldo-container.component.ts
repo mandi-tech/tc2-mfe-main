@@ -1,27 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectSaldoTotal } from '../../store/transacao.selector';
+import { Account } from '../../services/account/account';
+import { carregarTransacoes } from '../../store/transacao.actions';
 
 @Component({
   selector: 'app-saldo-container',
-  standalone: true,
-  imports: [],
   templateUrl: './saldo-container.component.html',
   styleUrl: './saldo-container.component.scss',
 })
-export class SaldoContainerComponent {
+export class SaldoContainerComponent implements OnInit {
   public isSaldoVisible: boolean = true;
+  public saldo: number = 2500;
 
-  //TODO: Substituir valor fixo pelo valor real do saldo do usuário retornado pela rota
-  private readonly saldo: string = 'R$ 5.250,00';
+  constructor(private accountService: Account) {}
 
-  public toggleSaldoVisibility(): void {
-    this.isSaldoVisible = !this.isSaldoVisible;
-  }
-
-  public get saldoDisplay(): string {
-    return this.isSaldoVisible ? this.saldo : 'R$ •••••••';
-  }
-
-  public get iconDisplay(): string {
-    return this.isSaldoVisible ? 'eye' : 'eye-invisible';
+  ngOnInit() {
+    this.accountService.getAccount().subscribe((resp) => {
+      const transacoes = resp?.result?.transactions || [];
+      if (transacoes.length === 0) {
+        this.saldo = 2500;
+      } else {
+        const totalOut = transacoes.reduce((acc, t) => acc + (Number(t.value) || 0), 0);
+        this.saldo = Number((2500 - totalOut).toFixed(2));
+      }
+    });
   }
 }
