@@ -1,5 +1,6 @@
 <div class="topbar-container">
     <div class="topbar-content">
-        <h4>Nome do usuário</h4>
+        <h4>{{ username || 'Nome do usuário' }}</h4>
+        <button class="logout-button" (click)="logout()">Logout</button>
     </div>
 </div>
