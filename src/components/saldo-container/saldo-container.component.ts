@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Account } from '../../services/account/account';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-saldo-container',
@@ -23,6 +24,7 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
   public saldo: string = 'R$ 0,00';
   private accountId: string | null =
     typeof window !== 'undefined' ? localStorage.getItem('account_id') : null;
+  private transactionSubscription: Subscription | null = null;
 
   constructor(private accountService: Account) {}
 
@@ -45,11 +47,19 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
           },
         });
       }
+
+      // Subscribe to transaction updates
+      this.transactionSubscription = this.accountService.transactionsUpdated$.subscribe(() => {
+        this.updateAccountBalance();
+      });
     }
   }
   ngOnDestroy(): void {
     if (typeof window !== 'undefined') {
       window.removeEventListener('storage', this.storageListener);
+    }
+    if (this.transactionSubscription) {
+      this.transactionSubscription.unsubscribe();
     }
   }
 
@@ -75,7 +85,7 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
           next: (response: any) => {
             const saldoInicial = 5250;
             const totalDebitos = response.result.transactions.reduce(
-              (acc: number, transaction: any) => acc + transaction.value,
+              (acc: number, transaction: any) => acc - transaction.value,
               0
             );
             this.saldo = (saldoInicial - totalDebitos).toLocaleString('pt-BR', {
