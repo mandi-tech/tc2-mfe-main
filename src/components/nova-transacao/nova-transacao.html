@@ -1,0 +1,41 @@
+<div class="auth-container">
+  <div class="auth-content">
+    <h2>Login</h2>
+    <div class="form-group">
+      <div class="form-group">
+        <label for="type">Anexo</label>
+        <select id="type" [(ngModel)]="type" name="type">
+          <option value="" disabled selected>Selecione um tipo</option>
+
+          <option *ngFor="let tipo of tiposDeTransacao" [ngValue]="tipo.value">
+            {{ tipo.label }}
+          </option>
+        </select>
+      </div>
+      <label for="value">Valor</label>
+      <input
+        type="number"
+        id="value"
+        [(ngModel)]="value"
+        name="value"
+        placeholder="Digite o valor da transação"
+      />
+    </div>
+    <div class="form-group">
+      <label for="anexo">Anexo</label>
+      <input
+        type="text"
+        id="anexo"
+        [(ngModel)]="anexo"
+        name="anexo"
+        placeholder="Nome do anexo a ser enviado"
+      />
+    </div>
+    <div class="form-group">
+      <label for="urlAnexo">URL do anexo</label>
+      <input type="text" id="urlAnexo" [(ngModel)]="urlAnexo" name="urlAnexo" placeholder="" />
+    </div>
+
+    <button (click)="novaTransacao()">Nova transação</button>
+  </div>
+</div>

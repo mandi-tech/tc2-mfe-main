@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { Subject, tap } from 'rxjs';
 import { GetAccountResp } from '../../models/account.interface';
 import {
   EditTransactionBody,
@@ -15,28 +16,50 @@ import { environment } from '../../environments/environment';
 export class Account {
   private apiUrl = environment.apiUrl + 'account';
 
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
-  getAccount() {
-    return this.http.get<GetAccountResp>(`${this.apiUrl}`);
+  private transactionsUpdated = new Subject<void>();
+  public transactionsUpdated$ = this.transactionsUpdated.asObservable();
+
+  private getAuthHeaders() {
+    const token = localStorage.getItem('auth_token');
+    return token ? { Authorization: `Bearer ${token}` } : undefined;
+  }
+
+  getAccount(options?: { headers?: Record<string, string> }) {
+    const headers = { ...this.getAuthHeaders(), ...options?.headers };
+    return this.http.get<GetAccountResp>(`${this.apiUrl}`, { headers });
   }
 
   postAccountTransaction(transactionData: TransactionBody) {
-    return this.http.post<PostTransactionResp>(`${this.apiUrl}/transaction`, transactionData);
+    const headers = this.getAuthHeaders();
+    return this.http
+      .post<PostTransactionResp>(`${this.apiUrl}/transaction`, transactionData, {
+        headers,
+      })
+      .pipe(tap(() => this.transactionsUpdated.next()));
   }
 
   putAccountTransaction(transactionId: string, transactionData: EditTransactionBody) {
-    return this.http.put<PostTransactionResp>(
-      `${this.apiUrl}/transaction/${transactionId}`,
-      transactionData
-    );
+    const headers = this.getAuthHeaders();
+    return this.http
+      .put<PostTransactionResp>(
+        `${this.apiUrl}/transaction/${transactionId}`,
+        transactionData,
+        { headers }
+      )
+      .pipe(tap(() => this.transactionsUpdated.next()));
   }
 
   deleteAccountTransaction(transactionId: string) {
-    return this.http.delete(`${this.apiUrl}/transaction/${transactionId}`);
+    const headers = this.getAuthHeaders();
+    return this.http
+      .delete(`${this.apiUrl}/transaction/${transactionId}`, { headers })
+      .pipe(tap(() => this.transactionsUpdated.next()));
   }
 
   getAccountExtract(accountId: string) {
-    return this.http.get<GetTransactionsResp>(`${this.apiUrl}/${accountId}/statement`);
+    const headers = this.getAuthHeaders();
+    return this.http.get<GetTransactionsResp>(`${this.apiUrl}/${accountId}/statement`, { headers });
   }
 }

@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Account } from '../../services/account/account';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-saldo-container',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './saldo-container.component.html',
   styleUrl: './saldo-container.component.scss',
 })
@@ -18,17 +20,33 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
   };
 
   //TODO: Substituir valor fixo pelo valor real do saldo do usuário retornado pela rota
-  private readonly saldo: string = 'R$ 5.250,00';
+  public saldo: string = 'R$ 0,00';
+  private accountId: string | null =
+    typeof window !== 'undefined' ? localStorage.getItem('account_id') : null;
 
-  constructor() {}
+  constructor(private accountService: Account) {}
 
   ngOnInit(): void {
     this.updateFirstNameFromToken();
     if (typeof window !== 'undefined') {
       window.addEventListener('storage', this.storageListener);
+
+      if (this.accountId) {
+        this.updateAccountBalance();
+      } else {
+        this.accountService.getAccount().subscribe({
+          next: (response: any) => {
+            this.accountId = response.result.account[0].id;
+            localStorage.setItem('account_id', this.accountId!);
+            this.updateAccountBalance();
+          },
+          error: (error) => {
+            console.error('Error fetching account data:', error);
+          },
+        });
+      }
     }
   }
-
   ngOnDestroy(): void {
     if (typeof window !== 'undefined') {
       window.removeEventListener('storage', this.storageListener);
@@ -37,35 +55,40 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
 
   private updateFirstNameFromToken(): void {
     try {
-      const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
-      if (!token) {
-        this.firstName = null;
-        return;
-      }
-      const parts = token.split('.');
-      if (parts.length < 2) {
-        this.firstName = null;
-        return;
-      }
-      const payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-      const json = decodeURIComponent(
-        atob(payload)
-          .split('')
-          .map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join('')
-      );
-      const data = JSON.parse(json);
-      const fullName = data?.username || data?.name || null;
-      if (fullName && typeof fullName === 'string') {
-        this.firstName = fullName.split(' ')[0];
+      const storedFirstName =
+        typeof window !== 'undefined' ? localStorage.getItem('first_name') : null;
+
+      if (storedFirstName) {
+        this.firstName = storedFirstName;
       } else {
         this.firstName = null;
       }
     } catch (e) {
       this.firstName = null;
     }
+  }
+
+  private updateAccountBalance(): void {
+    try {
+      if (this.accountId) {
+        this.accountService.getAccountExtract(this.accountId as string).subscribe({
+          next: (response: any) => {
+            const saldoInicial = 5250;
+            const totalDebitos = response.result.transactions.reduce(
+              (acc: number, transaction: any) => acc + transaction.value,
+              0
+            );
+            this.saldo = (saldoInicial - totalDebitos).toLocaleString('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            });
+          },
+          error: (error) => {
+            console.error('Error fetching account extract:', error);
+          },
+        });
+      }
+    } catch (e) {}
   }
 
   public toggleSaldoVisibility(): void {
