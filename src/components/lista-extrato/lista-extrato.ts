@@ -1,0 +1,95 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { Account } from '../../services/account/account';
+import { Transaction } from '../../models/transaction.interface';
+import { EditTransactionDialog } from './edit-transaction-dialog/edit-transaction-dialog';
+import { Subscription } from 'rxjs';
+
+@Component({
+  selector: 'app-lista-extrato',
+  standalone: true,
+  imports: [CommonModule, CurrencyPipe, DatePipe, MatButtonModule, MatIconModule],
+  templateUrl: './lista-extrato.html',
+  styleUrl: './lista-extrato.scss',
+})
+export class ListaExtrato implements OnInit, OnDestroy {
+  transactions: Transaction[] = [];
+  transactionsSubscription!: Subscription;
+
+  constructor(private accountService: Account, public dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    this.fetchTransactions();
+    this.transactionsSubscription = this.accountService.transactionsUpdated$.subscribe(() => {
+      this.fetchTransactions();
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.transactionsSubscription) {
+      this.transactionsSubscription.unsubscribe();
+    }
+  }
+
+  fetchTransactions() {
+    const accountId = typeof window !== 'undefined' ? localStorage.getItem('account_id') : null;
+    if (accountId) {
+      this.accountService.getAccountExtract(accountId).subscribe({
+        next: (response) => {
+          // The response structure is { message: string, result: { transactions: [...] } }
+          this.transactions = response.result.transactions || [];
+        },
+        error: (err) => {
+          console.error('Erro ao buscar extrato', err);
+        }
+      });
+    }
+  }
+
+  translateType(type: string): string {
+    const translations: { [key: string]: string } = {
+      'Debit': 'Débito',
+      'Credit': 'Crédito'
+    };
+    return translations[type] || type;
+  }
+
+  deleteTransaction(id: string) {
+    if (confirm('Tem certeza que deseja excluir esta transação?')) {
+      this.accountService.deleteAccountTransaction(id).subscribe({
+        next: () => {
+          // Success message optional, list auto-updates via subscription
+          console.log('Transação excluída com sucesso');
+        },
+        error: (err) => {
+          alert('Erro ao excluir transação');
+          console.error(err);
+        }
+      });
+    }
+  }
+
+  editTransaction(transaction: Transaction) {
+    const dialogRef = this.dialog.open(EditTransactionDialog, {
+      data: transaction
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.accountService.putAccountTransaction(transaction.id, result).subscribe({
+          next: () => {
+             console.log('Transação editada com sucesso');
+          },
+          error: (err) => {
+            console.error('Erro ao editar transação', err);
+            alert('Erro ao editar transação');
+          }
+        });
+      }
+    });
+  }
+}
+

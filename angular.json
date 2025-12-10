@@ -37,7 +37,8 @@
 							}
 						],
 						"styles": [
-							"src/styles.scss"
+							"src/styles.scss",
+              "@angular/material/prebuilt-themes/indigo-pink.css"
 						],
 						"main": "src/main.ts",
 						"outputPath": "dist/main-app",

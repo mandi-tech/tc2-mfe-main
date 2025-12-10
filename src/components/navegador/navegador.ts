@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-navegador',
   standalone: true,
-  imports: [CommonModule, NzDividerModule],
+  imports: [CommonModule, MatDividerModule],
   templateUrl: './navegador.html',
   styleUrls: ['./navegador.scss'],
 })
