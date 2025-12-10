@@ -22,3 +22,12 @@
     padding-top: 20px;
   }
 }
+
+.saldo-title {
+    display: flex;
+    justify-content: space-between;
+
+    .hide{
+      color: #FF5031;
+    }
+}

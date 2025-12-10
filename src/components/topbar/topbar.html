@@ -1,6 +1,8 @@
 <div class="topbar-container">
     <div class="topbar-content">
         <h4>{{ username || 'Nome do usuário' }}</h4>
-        <button class="logout-button" (click)="logout()">Logout</button>
+        <button mat-icon-button (click)="logout()" title="Logout">
+            <mat-icon class="icone-logout">logout</mat-icon>
+        </button>
     </div>
 </div>

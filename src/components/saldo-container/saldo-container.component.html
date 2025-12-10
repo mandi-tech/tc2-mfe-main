@@ -1,11 +1,14 @@
 <div class="container-saldo" style="background-color: #004d61; border-radius: 8px; padding: 24px">
   <div>
-    <h2>Olá, {{ firstName || 'Usuário' }}!</h2>
-    <p class="data-atual">Quinta-feira, 08/09/2024</p>
+    <h2>Olá, {{ firstName }}!</h2>
+    <p class="data-atual">{{ currentDate | date:'EEEE, dd/MM/yyyy':'pt-BR' }}</p>
   </div>
   <div class="saldo-box">
-    <div>
+    <div class="saldo-title">
       <h2>Saldo</h2>
+      <button mat-icon-button (click)="toggleSaldoVisibility()" title="Hide">
+        <mat-icon class="hide">{{ isSaldoVisible ? 'visibility' : 'visibility_off' }}</mat-icon>
+      </button>
     </div>
     <hr style="border: 1px solid #ff5031; margin: 16px 0" />
 

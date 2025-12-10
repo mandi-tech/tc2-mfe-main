@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Account } from '../../services/account/account';
 import { TransactionBody } from '../../models/transaction.interface';
+import { InputComponent } from '../shared/input/input.component';
+import { SelectComponent } from '../shared/select/select.component';
+import { ButtonComponent } from '../shared/button/button.component';
 
 @Component({
   selector: 'app-nova-transacao',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, InputComponent, SelectComponent, ButtonComponent],
   templateUrl: './nova-transacao.html',
   styleUrl: './nova-transacao.scss',
 })
@@ -23,15 +26,18 @@ export class NovaTransacao {
     { value: 'Credit', label: 'Crédito' },
   ];
 
+  get isFormInvalid(): boolean {
+    return !this.type || !this.value || this.value <= 0;
+  }
+
+
   constructor(private accountService: Account) {}
 
   novaTransacao() {
-    this.errorMessage = null; // Limpa erros anteriores
+    this.errorMessage = null;
 
-    // 1. Obter accountId do localStorage
     const accountId = typeof window !== 'undefined' ? localStorage.getItem('account_id') : null;
 
-    // 2. Validação: accountId e value
     if (!accountId) {
       this.errorMessage = 'Erro: ID da conta não encontrado. Faça login novamente.';
       console.error(this.errorMessage);
@@ -43,21 +49,18 @@ export class NovaTransacao {
       return;
     }
 
-    // 3. Montar o corpo da transação (TransactionBody)
     const transactionBody: TransactionBody = {
-      accountId: accountId, // Garantido como string
-      type: this.type as any, // 'Debit' | 'Credit'
+      accountId: accountId, 
+      type: this.type as any, 
       value: this.value,
       anexo: this.anexo,
       urlAnexo: this.urlAnexo,
     };
 
-    // 4. Chamar o serviço
     this.accountService.postAccountTransaction(transactionBody).subscribe({
       next: (response) => {
         alert('Transação criada com sucesso!');
         console.log('Transação enviada:', response);
-        // Opcional: Limpar formulário ou redirecionar
         this.resetForm();
       },
       error: (err) => {

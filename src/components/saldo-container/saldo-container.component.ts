@@ -2,11 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Account } from '../../services/account/account';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-saldo-container',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule, MatButtonModule],
   templateUrl: './saldo-container.component.html',
   styleUrl: './saldo-container.component.scss',
 })
@@ -24,6 +26,7 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
   public saldo: string = 'R$ 0,00';
   private accountId: string | null =
     typeof window !== 'undefined' ? localStorage.getItem('account_id') : null;
+  public currentDate: Date = new Date(); 
   private transactionSubscription: Subscription | null = null;
 
   constructor(private accountService: Account) {}
