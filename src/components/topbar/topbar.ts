@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
+import { getUsernameFromToken } from '../../utils/auth.utils';
 
 @Component({
   selector: 'app-topbar',
@@ -55,37 +55,6 @@ export class Topbar implements OnInit, OnDestroy {
   }
 
   private updateUsernameFromToken(): void {
-    if (typeof window === 'undefined') {
-      this.username = null;
-      return;
-    }
-
-    const token = localStorage.getItem('auth_token');
-    if (!token) {
-      this.username = null;
-      return;
-    }
-
-    try {
-      const parts = token.split('.');
-      if (parts.length < 2) {
-        this.username = null;
-        return;
-      }
-      // base64url -> base64
-      const payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
-      const json = decodeURIComponent(
-        atob(payload)
-          .split('')
-          .map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join('')
-      );
-      const data = JSON.parse(json);
-      this.username = data?.username || data?.name || null;
-    } catch (e) {
-      this.username = null;
-    }
+    this.username = getUsernameFromToken();
   }
 }

@@ -14,3 +14,10 @@ main {
     }
   }
 }
+
+@media (max-width: 1210px) {
+  main section {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
