@@ -24,10 +24,22 @@
 }
 
 .saldo-title {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 
-    .hide{
-      color: #FF5031;
+  .hide {
+    color: #ff5031;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container-saldo {
+    grid-template-columns: 1fr;
+    text-align: center;
+
+    .saldo-box {
+      margin: 0 auto;
+      padding-top: 10px;
     }
+  }
 }

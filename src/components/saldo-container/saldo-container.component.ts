@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { saldoInicial } from '../../models/account.interface';
+import { getUsernameFromToken } from '../../utils/auth.utils';
 
 @Component({
   selector: 'app-saldo-container',
@@ -16,51 +18,33 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
   public isSaldoVisible: boolean = true;
   public firstName: string | null = null;
 
-  private storageListener = (event: StorageEvent) => {
-    if (event.key === 'auth_token') {
-      this.updateFirstNameFromToken();
-    }
-  };
-
-  //TODO: Substituir valor fixo pelo valor real do saldo do usuário retornado pela rota
   public saldo: string = 'R$ 0,00';
   private accountId: string | null =
     typeof window !== 'undefined' ? localStorage.getItem('account_id') : null;
-  public currentDate: Date = new Date(); 
+  public currentDate: Date = new Date();
   private transactionSubscription: Subscription | null = null;
 
   constructor(private accountService: Account) {}
 
   ngOnInit(): void {
-    this.updateFirstNameFromToken();
-    if (typeof window !== 'undefined') {
-      window.addEventListener('storage', this.storageListener);
+    this.firstName = getUsernameFromToken();
 
-      if (this.accountId) {
-        this.updateAccountBalance();
-      } else {
-        this.accountService.getAccount().subscribe({
-          next: (response: any) => {
-            this.accountId = response.result.account[0].id;
-            localStorage.setItem('account_id', this.accountId!);
-            this.updateAccountBalance();
-          },
-          error: (error) => {
-            console.error('Error fetching account data:', error);
-          },
+    this.accountService.transactions$.subscribe((response) => {
+      if (response) {
+        const saldoInicialPadrao = saldoInicial;
+        const totalDebitos = response.result.transactions.reduce(
+          (acc: number, transaction: any) => acc - transaction.value,
+          0
+        );
+        this.saldo = (saldoInicialPadrao - totalDebitos).toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL',
         });
       }
-
-      // Subscribe to transaction updates
-      this.transactionSubscription = this.accountService.transactionsUpdated$.subscribe(() => {
-        this.updateAccountBalance();
-      });
-    }
+    });
   }
+
   ngOnDestroy(): void {
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('storage', this.storageListener);
-    }
     if (this.transactionSubscription) {
       this.transactionSubscription.unsubscribe();
     }

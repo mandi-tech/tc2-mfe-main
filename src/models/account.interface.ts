@@ -16,3 +16,5 @@ export interface GetAccountResp {
     cards: Card[];
   };
 }
+
+export const saldoInicial = 5250;

@@ -22,9 +22,11 @@ export class ListaExtrato implements OnInit, OnDestroy {
   constructor(private accountService: Account, public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.fetchTransactions();
-    this.transactionsSubscription = this.accountService.transactionsUpdated$.subscribe(() => {
-      this.fetchTransactions();
+    // Apenas assina o fluxo de dados centralizado
+    this.accountService.transactions$.subscribe((response) => {
+      if (response) {
+        this.transactions = response.result.transactions || [];
+      }
     });
   }
 
@@ -44,15 +46,15 @@ export class ListaExtrato implements OnInit, OnDestroy {
         },
         error: (err) => {
           console.error('Erro ao buscar extrato', err);
-        }
+        },
       });
     }
   }
 
   translateType(type: string): string {
     const translations: { [key: string]: string } = {
-      'Debit': 'Débito',
-      'Credit': 'Crédito'
+      Debit: 'Débito',
+      Credit: 'Crédito',
     };
     return translations[type] || type;
   }
@@ -67,29 +69,28 @@ export class ListaExtrato implements OnInit, OnDestroy {
         error: (err) => {
           alert('Erro ao excluir transação');
           console.error(err);
-        }
+        },
       });
     }
   }
 
   editTransaction(transaction: Transaction) {
     const dialogRef = this.dialog.open(EditTransactionDialog, {
-      data: transaction
+      data: transaction,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.accountService.putAccountTransaction(transaction.id, result).subscribe({
           next: () => {
-             console.log('Transação editada com sucesso');
+            console.log('Transação editada com sucesso');
           },
           error: (err) => {
             console.error('Erro ao editar transação', err);
             alert('Erro ao editar transação');
-          }
+          },
         });
       }
     });
   }
 }
-

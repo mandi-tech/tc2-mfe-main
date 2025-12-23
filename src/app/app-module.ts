@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../services/auth/auth.interceptor';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @NgModule({
   declarations: [App],
@@ -20,11 +21,12 @@ import { TokenInterceptor } from '../services/auth/auth.interceptor';
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    provideCharts(withDefaultRegisterables()),
   ],
   bootstrap: [App],
 })
