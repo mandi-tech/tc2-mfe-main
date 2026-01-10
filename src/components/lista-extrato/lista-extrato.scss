@@ -2,7 +2,8 @@
   background-color: #ffffff;
   border-radius: 8px;
   padding: 24px;
-  height: 96%;
+  position: fixed;
+  height: 81vh;
 
   h2 {
     font-weight: 700;
@@ -12,6 +13,7 @@
 
 .container-item {
   display: flex;
+  gap: 20px;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #47a13880;
@@ -46,5 +48,11 @@
   button {
     background-color: #004d61;
     color: #fff;
+  }
+}
+
+@media screen and (max-width: 1210px) {
+  .container-extrato {
+    position: relative;
   }
 }

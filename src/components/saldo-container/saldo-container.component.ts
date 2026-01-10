@@ -19,8 +19,6 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
   public firstName: string | null = null;
 
   public saldo: string = 'R$ 0,00';
-  private accountId: string | null =
-    typeof window !== 'undefined' ? localStorage.getItem('account_id') : null;
   public currentDate: Date = new Date();
   private transactionSubscription: Subscription | null = null;
 
@@ -33,10 +31,10 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
       if (response) {
         const saldoInicialPadrao = saldoInicial;
         const totalDebitos = response.result.transactions.reduce(
-          (acc: number, transaction: any) => acc - transaction.value,
+          (acc: number, transaction: any) => acc + transaction.value,
           0
         );
-        this.saldo = (saldoInicialPadrao - totalDebitos).toLocaleString('pt-BR', {
+        this.saldo = (saldoInicialPadrao + totalDebitos).toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         });
@@ -48,44 +46,6 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
     if (this.transactionSubscription) {
       this.transactionSubscription.unsubscribe();
     }
-  }
-
-  private updateFirstNameFromToken(): void {
-    try {
-      const storedFirstName =
-        typeof window !== 'undefined' ? localStorage.getItem('first_name') : null;
-
-      if (storedFirstName) {
-        this.firstName = storedFirstName;
-      } else {
-        this.firstName = null;
-      }
-    } catch (e) {
-      this.firstName = null;
-    }
-  }
-
-  private updateAccountBalance(): void {
-    try {
-      if (this.accountId) {
-        this.accountService.getAccountExtract(this.accountId as string).subscribe({
-          next: (response: any) => {
-            const saldoInicial = 5250;
-            const totalDebitos = response.result.transactions.reduce(
-              (acc: number, transaction: any) => acc - transaction.value,
-              0
-            );
-            this.saldo = (saldoInicial - totalDebitos).toLocaleString('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
-            });
-          },
-          error: (error) => {
-            console.error('Error fetching account extract:', error);
-          },
-        });
-      }
-    } catch (e) {}
   }
 
   public toggleSaldoVisibility(): void {

@@ -30,7 +30,6 @@ export class NovaTransacao {
     return !this.type || !this.value || this.value <= 0;
   }
 
-
   constructor(private accountService: Account) {}
 
   novaTransacao() {
@@ -50,8 +49,8 @@ export class NovaTransacao {
     }
 
     const transactionBody: TransactionBody = {
-      accountId: accountId, 
-      type: this.type as any, 
+      accountId: accountId,
+      type: this.type as any,
       value: this.value,
       anexo: this.anexo,
       urlAnexo: this.urlAnexo,
@@ -74,6 +73,6 @@ export class NovaTransacao {
     this.anexo = '';
     this.value = 0;
     this.urlAnexo = '';
-    this.type = 'Debit';
+    this.type = '';
   }
 }

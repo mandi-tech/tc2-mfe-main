@@ -5,7 +5,7 @@ main {
     display: grid;
     gap: 24px;
     grid-template-columns: 1fr 5fr 2fr;
-    padding: 5vh 10vw;
+    padding: 10vh 10vw 4vh 10vw;
 
     .container-principal {
       display: flex;
@@ -15,9 +15,16 @@ main {
   }
 }
 
+@media (max-width: 1677px) {
+  main section {
+    grid-template-columns: 1.3fr 5fr 2fr;
+  }
+}
+
 @media (max-width: 1210px) {
   main section {
     grid-template-columns: 1fr;
     gap: 24px;
+    padding: 10vh 10vw;
   }
 }
