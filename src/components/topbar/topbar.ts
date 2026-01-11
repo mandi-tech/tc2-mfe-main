@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { getUsernameFromToken } from '../../utils/auth.utils';
+import { palette } from '../../constants/colors';
 
 @Component({
   selector: 'app-topbar',
@@ -13,6 +14,7 @@ import { getUsernameFromToken } from '../../utils/auth.utils';
   styleUrls: ['./topbar.scss'],
 })
 export class Topbar implements OnInit, OnDestroy {
+  public palette = palette;
   username: string | null = null;
   constructor(private router: Router) {}
 

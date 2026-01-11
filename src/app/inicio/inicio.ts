@@ -8,6 +8,7 @@ import { GraficoTransacao } from '../../components/grafico-transacao/grafico-tra
 import { Account } from '../../services/account/account';
 import { FilterPeriod } from '../../models/account.interface';
 import { ButtonComponent } from '../../components/shared/button/button.component';
+import { palette } from '../../constants/colors';
 
 @Component({
   selector: 'app-inicio',
@@ -26,6 +27,7 @@ import { ButtonComponent } from '../../components/shared/button/button.component
 })
 export class Inicio implements OnInit {
   filterSelected: FilterPeriod = 'all';
+  public palette = palette;
 
   constructor(private accountService: Account) {}
 

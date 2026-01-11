@@ -6,6 +6,7 @@ import { TransactionBody } from '../../models/transaction.interface';
 import { InputComponent } from '../shared/input/input.component';
 import { SelectComponent } from '../shared/select/select.component';
 import { ButtonComponent } from '../shared/button/button.component';
+import { palette } from '../../constants/colors';
 
 @Component({
   selector: 'app-nova-transacao',
@@ -20,6 +21,8 @@ export class NovaTransacao {
   urlAnexo: string = '';
   type: string = '';
   errorMessage: string | null = null;
+
+  public palette = palette;
 
   tiposDeTransacao: { value: string; label: string }[] = [
     { value: 'Debit', label: 'Débito' },

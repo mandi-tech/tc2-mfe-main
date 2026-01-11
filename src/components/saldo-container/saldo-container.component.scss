@@ -1,5 +1,4 @@
 .container-saldo {
-  color: #ffff;
   min-height: 30vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -8,7 +7,6 @@
   h1,
   h2,
   h3 {
-    color: #ffff;
     margin: 0;
   }
 
@@ -26,10 +24,6 @@
 .saldo-title {
   display: flex;
   justify-content: space-between;
-
-  .hide {
-    color: #ff5031;
-  }
 }
 
 @media screen and (max-width: 600px) {

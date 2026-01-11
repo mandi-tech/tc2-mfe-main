@@ -1,4 +1,8 @@
-<div class="container-saldo" style="background-color: #004d61; border-radius: 8px; padding: 24px">
+<div
+  class="container-saldo"
+  style="border-radius: 8px; padding: 24px"
+  [ngStyle]="{ 'background-color': palette.azul700, color: palette.branco }"
+>
   <div>
     <h2>Olá, {{ firstName }}!</h2>
     <p class="data-atual">{{ dataFormatada }}</p>
@@ -7,10 +11,12 @@
     <div class="saldo-title">
       <h2>Saldo</h2>
       <button mat-icon-button (click)="toggleSaldoVisibility()" title="Hide">
-        <mat-icon class="hide">{{ isSaldoVisible ? 'visibility' : 'visibility_off' }}</mat-icon>
+        <mat-icon class="hide" [style.color]="palette.laranja500">{{
+          isSaldoVisible ? 'visibility' : 'visibility_off'
+        }}</mat-icon>
       </button>
     </div>
-    <hr style="border: 1px solid #ff5031; margin: 16px 0" />
+    <hr [style.border]="'1px solid ' + palette.laranja500" [style.margin]="'16px 0'" />
 
     <p style="margin-bottom: 10px">Conta Corrente</p>
 

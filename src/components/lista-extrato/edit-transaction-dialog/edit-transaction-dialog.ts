@@ -6,27 +6,37 @@ import { InputComponent } from '../../shared/input/input.component';
 import { SelectComponent } from '../../shared/select/select.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { Transaction, EditTransactionBody } from '../../../models/transaction.interface';
+import { palette } from '../../../constants/colors';
 
 @Component({
   selector: 'app-edit-transaction-dialog',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatDialogModule, InputComponent, SelectComponent, ButtonComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatDialogModule,
+    InputComponent,
+    SelectComponent,
+    ButtonComponent,
+  ],
   templateUrl: './edit-transaction-dialog.html',
-  styles: [`
-    .dialog-container {
-      padding: 24px;
-      min-width: 400px;
-    }
-    .form-group {
+  styles: [
+    `
+      .dialog-container {
+        padding: 24px;
+        min-width: 400px;
+      }
+      .form-group {
         margin-bottom: 16px;
-    }
-    .actions {
+      }
+      .actions {
         display: flex;
         justify-content: flex-end;
         gap: 8px;
         margin-top: 24px;
-    }
-  `]
+      }
+    `,
+  ],
 })
 export class EditTransactionDialog {
   value: number;
@@ -37,6 +47,7 @@ export class EditTransactionDialog {
     { value: 'Debit', label: 'Débito' },
     { value: 'Credit', label: 'Crédito' },
   ];
+  public palette = palette;
 
   constructor(
     public dialogRef: MatDialogRef<EditTransactionDialog>,
@@ -51,7 +62,7 @@ export class EditTransactionDialog {
     const result: EditTransactionBody = {
       value: this.value,
       urlAnexo: this.urlAnexo,
-      type: this.type as any
+      type: this.type as any,
     };
     this.dialogRef.close(result);
   }

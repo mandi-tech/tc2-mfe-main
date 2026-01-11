@@ -4,6 +4,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { Subscription } from 'rxjs';
 import { Account } from '../../services/account/account';
 import { saldoInicial } from '../../models/account.interface';
+import { palette } from '../../constants/colors';
 
 Chart.register(...registerables);
 
@@ -15,6 +16,7 @@ Chart.register(...registerables);
   styleUrl: './grafico-transacao.scss',
 })
 export class GraficoTransacao implements OnInit, OnDestroy {
+  public palette = palette;
   private sub: Subscription | null = null;
   private saldoInicialPadrao = saldoInicial;
 
@@ -26,9 +28,9 @@ export class GraficoTransacao implements OnInit, OnDestroy {
         label: 'Saldo Acumulado (R$)',
         fill: true,
         tension: 0.3,
-        borderColor: '#2E7D32',
+        borderColor: palette.verde500,
         backgroundColor: 'rgba(46, 125, 50, 0.1)',
-        pointBackgroundColor: '#1B5E20',
+        pointBackgroundColor: palette.verde500,
         pointRadius: 4,
       },
     ],

@@ -1,4 +1,4 @@
-<div class="chart-container">
+<div class="chart-container" [style.backgroundColor]="palette.branco">
   @if (lineChartData.labels && lineChartData.labels.length > 0) {
   <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" type="line"> </canvas>
   } @else {

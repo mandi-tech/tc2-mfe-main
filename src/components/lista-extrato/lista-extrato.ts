@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,21 +8,17 @@ import { Transaction } from '../../models/transaction.interface';
 import { EditTransactionDialog } from './edit-transaction-dialog/edit-transaction-dialog';
 import { Subscription } from 'rxjs';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { palette } from '../../constants/colors';
 @Component({
   selector: 'app-lista-extrato',
   standalone: true,
-  imports: [
-    CommonModule,
-    CurrencyPipe,
-    DatePipe,
-    MatButtonModule,
-    MatIconModule,
-    MatPaginatorModule,
-  ],
+  imports: [CommonModule, DatePipe, MatButtonModule, MatIconModule, MatPaginatorModule],
   templateUrl: './lista-extrato.html',
   styleUrl: './lista-extrato.scss',
 })
 export class ListaExtrato implements OnInit, OnDestroy {
+  public palette = palette;
+
   transactions: Transaction[] = [];
   pageIndex: number = 0;
   pageSize: number = 10;

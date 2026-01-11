@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { saldoInicial } from '../../models/account.interface';
 import { getUsernameFromToken } from '../../utils/auth.utils';
+import { palette } from '../../constants/colors';
 
 @Component({
   selector: 'app-saldo-container',
@@ -21,6 +22,8 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
   public saldo: string = 'R$ 0,00';
   public currentDate: Date = new Date();
   private transactionSubscription: Subscription | null = null;
+
+  public palette = palette;
 
   constructor(private accountService: Account) {}
 
