@@ -9,50 +9,39 @@
     padding-left: 12px !important;
   }
 
-  // Explicitly targeting the trailing (right) part
   ::ng-deep .mdc-notched-outline__trailing {
     border-top-right-radius: 8px !important;
     border-bottom-right-radius: 8px !important;
   }
 
-  // Ensure border width is consistent
   ::ng-deep .mdc-notched-outline__leading,
   ::ng-deep .mdc-notched-outline__notch,
   ::ng-deep .mdc-notched-outline__trailing {
     border-width: 1px !important;
-    border-color: #004D61 !important;
+    border-color: #004d61 !important;
   }
 
-  // Hover state
   &:hover ::ng-deep .mdc-notched-outline__leading,
   &:hover ::ng-deep .mdc-notched-outline__notch,
   &:hover ::ng-deep .mdc-notched-outline__trailing {
-    border-color: #004D61 !important;
-  }
-
-  // Focus state
-  &.mat-focused ::ng-deep .mdc-notched-outline__leading,
-  &.mat-focused ::ng-deep .mdc-notched-outline__notch,
-  &.mat-focused ::ng-deep .mdc-notched-outline__trailing {
-    border-width: 2px !important;
+    border-color: #004d61 !important;
   }
 }
 
-// Global override for the select panel to ensure it has a white background
 ::ng-deep .mat-mdc-select-panel {
-  background-color: #FFFFFF !important;
+  background-color: #ffffff !important;
 }
 
 ::ng-deep .mat-mdc-option {
-  background-color: #FFFFFF !important;
+  background-color: #ffffff !important;
   &:hover {
-    background-color: #f5f5f5 !important; // Light grey hover
+    background-color: #f5f5f5 !important;
   }
   &.mat-mdc-option-active {
-    background-color: #ebebeb !important; // Active state
+    background-color: #ebebeb !important;
   }
 }
 
 .custom-select {
-    padding-left: 12px;   
+  padding-left: 12px;
 }

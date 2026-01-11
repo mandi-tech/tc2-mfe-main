@@ -5,7 +5,7 @@
   ::ng-deep .mdc-notched-outline__leading {
     border-top-left-radius: 8px !important;
     border-bottom-left-radius: 8px !important;
-    width: 12px !important; 
+    width: 12px !important;
     padding-left: 12px !important;
   }
 
@@ -18,14 +18,14 @@
   ::ng-deep .mdc-notched-outline__notch,
   ::ng-deep .mdc-notched-outline__trailing {
     border-width: 1px !important;
-    border-color: #004D61 !important;
+    border-color: #004d61 !important;
   }
 
   // Hover state
   &:hover ::ng-deep .mdc-notched-outline__leading,
   &:hover ::ng-deep .mdc-notched-outline__notch,
   &:hover ::ng-deep .mdc-notched-outline__trailing {
-    border-color: #004D61 !important;
+    border-color: #004d61 !important;
   }
 
   // Focus state

@@ -7,11 +7,12 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [CommonModule, MatButtonModule],
   templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss']
+  styleUrls: ['./button.component.scss'],
 })
 export class ButtonComponent {
   @Input() label: string = '';
-  @Input() color: 'primary' | 'accent' | 'warn' = 'primary';
+  @Input() color: string = '#FFFFFF';
+  @Input() backgrondColor: string = '#004D61';
   @Input() disabled: boolean = false;
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
   @Output() onClick = new EventEmitter<void>();
