@@ -1,21 +1,27 @@
 <div class="container-extrato">
-    <h2>Extrato</h2>
-    <div class="container-item" *ngFor="let item of transactions.slice().reverse()">
-        <div class="item-details">
-            <p>{{ translateType(item.type) }} - {{ item.date | date:'dd/MM/yyyy' }}</p>
-            <h4>
-              {{ item.value | currency:'BRL':'symbol':'1.2-2' }}
-            </h4>
-        </div>
-        <div class="actions">
-            <button mat-icon-button color="primary" (click)="editTransaction(item)" title="Editar">
-                <mat-icon class="edit">edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteTransaction(item.id)" title="Excluir">
-                <mat-icon class="trash">delete</mat-icon>
-            </button>
-        </div>
-        <hr>
+  <h2>Extrato</h2>
+  <div class="container-item" *ngFor="let item of pagedTransactions">
+    <div class="item-details">
+      <p>{{ translateType(item.type) }} - {{ item.date | date : 'dd/MM/yyyy' }}</p>
+      <span>R$ {{ formatarMoeda(item.value) }}</span>
     </div>
-    <p *ngIf="transactions.length === 0">Nenhuma transação encontrada.</p>
+    <div class="actions">
+      <button mat-icon-button color="primary" (click)="editTransaction(item)" title="Editar">
+        <mat-icon class="edit">edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteTransaction(item.id)" title="Excluir">
+        <mat-icon class="trash">delete</mat-icon>
+      </button>
+    </div>
+    <hr />
+  </div>
+  <mat-paginator
+    [length]="transactions.length"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    (page)="handlePageEvent($event)"
+    aria-label="Selecionar página"
+  >
+  </mat-paginator>
+  <p *ngIf="transactions.length === 0">Nenhuma transação encontrada.</p>
 </div>

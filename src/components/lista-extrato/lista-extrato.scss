@@ -8,16 +8,17 @@
   h2 {
     font-weight: 700;
     font-size: 25px;
+    color: #ff5031;
   }
 }
 
 .container-item {
   display: flex;
-  gap: 20px;
+  gap: 25px;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #47a13880;
-  padding: 8px 0;
+  border-bottom: 1px solid #cbcbcb;
+  padding: 10px 0;
 
   &:last-child {
     border-bottom: none;
@@ -54,5 +55,6 @@
 @media screen and (max-width: 1210px) {
   .container-extrato {
     position: relative;
+    height: fit-content;
   }
 }
