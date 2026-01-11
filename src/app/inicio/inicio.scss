@@ -11,6 +11,12 @@ main {
       display: flex;
       flex-direction: column;
       gap: 24px;
+
+      .container-filtro {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
     }
   }
 }

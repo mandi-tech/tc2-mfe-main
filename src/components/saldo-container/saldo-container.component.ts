@@ -59,4 +59,13 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
   public get iconDisplay(): string {
     return this.isSaldoVisible ? 'eye' : 'eye-invisible';
   }
+
+  get dataFormatada(): string {
+    return new Intl.DateTimeFormat('pt-BR', {
+      weekday: 'long',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    }).format(this.currentDate);
+  }
 }

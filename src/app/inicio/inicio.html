@@ -3,6 +3,35 @@
   <section>
     <app-navegador></app-navegador>
     <div class="container-principal">
+      <div class="container-filtro">
+        <app-button
+          label="Ver tudo"
+          (onClick)="changeFilter('all')"
+          [color]="filterSelected === 'all' ? '#FFFFFF' : '#000000'"
+          [backgrondColor]="filterSelected === 'all' ? '#ff5031' : '#CBCBCB'"
+        ></app-button>
+
+        <app-button
+          label="Hoje"
+          (onClick)="changeFilter('today')"
+          [color]="filterSelected === 'today' ? '#FFFFFF' : '#000000'"
+          [backgrondColor]="filterSelected === 'today' ? '#ff5031' : '#CBCBCB'"
+        ></app-button>
+
+        <app-button
+          label="Última semana"
+          (onClick)="changeFilter('week')"
+          [color]="filterSelected === 'week' ? '#FFFFFF' : '#000000'"
+          [backgrondColor]="filterSelected === 'week' ? '#ff5031' : '#CBCBCB'"
+        ></app-button>
+
+        <app-button
+          label="Último mês"
+          (onClick)="changeFilter('month')"
+          [color]="filterSelected === 'month' ? '#FFFFFF' : '#000000'"
+          [backgrondColor]="filterSelected === 'month' ? '#ff5031' : '#CBCBCB'"
+        ></app-button>
+      </div>
       <app-saldo-container></app-saldo-container>
       <app-grafico-transacao></app-grafico-transacao>
       <app-nova-transacao></app-nova-transacao>

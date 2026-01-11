@@ -16,7 +16,7 @@ Chart.register(...registerables);
 })
 export class GraficoTransacao implements OnInit, OnDestroy {
   private sub: Subscription | null = null;
-  private saldoInicialPadrao = saldoInicial; // O valor base que você definiu
+  private saldoInicialPadrao = saldoInicial;
 
   public lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: [],
@@ -25,8 +25,8 @@ export class GraficoTransacao implements OnInit, OnDestroy {
         data: [],
         label: 'Saldo Acumulado (R$)',
         fill: true,
-        tension: 0.3, // Curva mais suave para o saldo
-        borderColor: '#2E7D32', // Verde para representar saldo
+        tension: 0.3,
+        borderColor: '#2E7D32',
         backgroundColor: 'rgba(46, 125, 50, 0.1)',
         pointBackgroundColor: '#1B5E20',
         pointRadius: 4,
@@ -40,7 +40,7 @@ export class GraficoTransacao implements OnInit, OnDestroy {
     plugins: {},
     scales: {
       y: {
-        beginAtZero: false, // Saldo pode começar alto
+        beginAtZero: false,
         ticks: { callback: (value) => `R$ ${value}` },
       },
     },
@@ -57,37 +57,43 @@ export class GraficoTransacao implements OnInit, OnDestroy {
   }
 
   private calcularEvolucaoSaldo(transactions: any[]): void {
-    // 1. Agrupar impacto financeiro por dia
-    const impactoPorDia: { [key: string]: number } = {};
+    if (!transactions || transactions.length === 0) return;
 
-    transactions.forEach((t) => {
-      const data = new Date(t.date).toLocaleDateString('pt-BR');
-      // Se for Débito subtrai, se for Crédito soma
-      const valor = t.value;
-      impactoPorDia[data] = (impactoPorDia[data] || 0) + valor;
-    });
+    const transacoesOrdenadas = [...transactions].sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
 
-    // 2. Ordenar datas cronologicamente
-    const datasOrdenadas = Object.keys(impactoPorDia).sort((a, b) => {
-      return (
-        new Date(a.split('/').reverse().join('-')).getTime() -
-        new Date(b.split('/').reverse().join('-')).getTime()
-      );
-    });
-
-    // 3. Calcular Saldo Acumulado (Progressivo)
     let saldoAtual = this.saldoInicialPadrao;
+    const labels: (string | string[])[] = [];
     const historicoSaldo: number[] = [];
 
-    datasOrdenadas.forEach((data) => {
-      saldoAtual += impactoPorDia[data];
+    transacoesOrdenadas.forEach((t) => {
+      const dataObj = new Date(t.date);
+
+      const dataRef = dataObj.toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+      });
+
+      const horaRef = dataObj.toLocaleTimeString('pt-BR', {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+
+      labels.push([horaRef, dataRef]);
+
+      saldoAtual += t.value;
       historicoSaldo.push(saldoAtual);
     });
 
-    // 4. Atualizar o gráfico
     this.lineChartData = {
-      labels: datasOrdenadas,
-      datasets: [{ ...this.lineChartData.datasets[0], data: historicoSaldo }],
+      labels: labels,
+      datasets: [
+        {
+          ...this.lineChartData.datasets[0],
+          data: historicoSaldo,
+        },
+      ],
     };
   }
 

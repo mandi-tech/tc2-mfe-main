@@ -18,3 +18,5 @@ export interface GetAccountResp {
 }
 
 export const saldoInicial = 5250;
+
+export type FilterPeriod = 'all' | 'today' | 'week' | 'month';
