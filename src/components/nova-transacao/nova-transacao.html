@@ -1,6 +1,6 @@
-<div class="nova-transacao-container">
+<div class="nova-transacao-container" [style.backgroundColor]="palette.cinza300">
   <div class="nova-transacao-content">
-    <h2>Nova transação</h2>
+    <h2 [style.color]="palette.azul700">Nova transação</h2>
     <div class="form-group">
       <div class="form-group">
         <app-select
@@ -45,10 +45,10 @@
 
     <app-button
       type="submit"
-      color="primary"
       label="Nova transação"
       [disabled]="isFormInvalid"
       (onClick)="novaTransacao()"
+      backgroundColor="{{ palette.verde500 }}"
     ></app-button>
   </div>
 </div>

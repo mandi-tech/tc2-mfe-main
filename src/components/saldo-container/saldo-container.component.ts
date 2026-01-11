@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { saldoInicial } from '../../models/account.interface';
 import { getUsernameFromToken } from '../../utils/auth.utils';
+import { palette } from '../../constants/colors';
 
 @Component({
   selector: 'app-saldo-container',
@@ -19,10 +20,10 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
   public firstName: string | null = null;
 
   public saldo: string = 'R$ 0,00';
-  private accountId: string | null =
-    typeof window !== 'undefined' ? localStorage.getItem('account_id') : null;
   public currentDate: Date = new Date();
   private transactionSubscription: Subscription | null = null;
+
+  public palette = palette;
 
   constructor(private accountService: Account) {}
 
@@ -33,10 +34,10 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
       if (response) {
         const saldoInicialPadrao = saldoInicial;
         const totalDebitos = response.result.transactions.reduce(
-          (acc: number, transaction: any) => acc - transaction.value,
+          (acc: number, transaction: any) => acc + transaction.value,
           0
         );
-        this.saldo = (saldoInicialPadrao - totalDebitos).toLocaleString('pt-BR', {
+        this.saldo = (saldoInicialPadrao + totalDebitos).toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         });
@@ -50,44 +51,6 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
     }
   }
 
-  private updateFirstNameFromToken(): void {
-    try {
-      const storedFirstName =
-        typeof window !== 'undefined' ? localStorage.getItem('first_name') : null;
-
-      if (storedFirstName) {
-        this.firstName = storedFirstName;
-      } else {
-        this.firstName = null;
-      }
-    } catch (e) {
-      this.firstName = null;
-    }
-  }
-
-  private updateAccountBalance(): void {
-    try {
-      if (this.accountId) {
-        this.accountService.getAccountExtract(this.accountId as string).subscribe({
-          next: (response: any) => {
-            const saldoInicial = 5250;
-            const totalDebitos = response.result.transactions.reduce(
-              (acc: number, transaction: any) => acc - transaction.value,
-              0
-            );
-            this.saldo = (saldoInicial - totalDebitos).toLocaleString('pt-BR', {
-              style: 'currency',
-              currency: 'BRL',
-            });
-          },
-          error: (error) => {
-            console.error('Error fetching account extract:', error);
-          },
-        });
-      }
-    } catch (e) {}
-  }
-
   public toggleSaldoVisibility(): void {
     this.isSaldoVisible = !this.isSaldoVisible;
   }
@@ -98,5 +61,14 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
 
   public get iconDisplay(): string {
     return this.isSaldoVisible ? 'eye' : 'eye-invisible';
+  }
+
+  get dataFormatada(): string {
+    return new Intl.DateTimeFormat('pt-BR', {
+      weekday: 'long',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    }).format(this.currentDate);
   }
 }

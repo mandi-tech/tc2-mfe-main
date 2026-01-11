@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,22 +7,26 @@ import { Account } from '../../services/account/account';
 import { Transaction } from '../../models/transaction.interface';
 import { EditTransactionDialog } from './edit-transaction-dialog/edit-transaction-dialog';
 import { Subscription } from 'rxjs';
-
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { palette } from '../../constants/colors';
 @Component({
   selector: 'app-lista-extrato',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe, DatePipe, MatButtonModule, MatIconModule],
+  imports: [CommonModule, DatePipe, MatButtonModule, MatIconModule, MatPaginatorModule],
   templateUrl: './lista-extrato.html',
   styleUrl: './lista-extrato.scss',
 })
 export class ListaExtrato implements OnInit, OnDestroy {
+  public palette = palette;
+
   transactions: Transaction[] = [];
+  pageIndex: number = 0;
+  pageSize: number = 10;
   transactionsSubscription!: Subscription;
 
   constructor(private accountService: Account, public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    // Apenas assina o fluxo de dados centralizado
     this.accountService.transactions$.subscribe((response) => {
       if (response) {
         this.transactions = response.result.transactions || [];
@@ -41,7 +45,6 @@ export class ListaExtrato implements OnInit, OnDestroy {
     if (accountId) {
       this.accountService.getAccountExtract(accountId).subscribe({
         next: (response) => {
-          // The response structure is { message: string, result: { transactions: [...] } }
           this.transactions = response.result.transactions || [];
         },
         error: (err) => {
@@ -63,7 +66,6 @@ export class ListaExtrato implements OnInit, OnDestroy {
     if (confirm('Tem certeza que deseja excluir esta transação?')) {
       this.accountService.deleteAccountTransaction(id).subscribe({
         next: () => {
-          // Success message optional, list auto-updates via subscription
           console.log('Transação excluída com sucesso');
         },
         error: (err) => {
@@ -91,6 +93,24 @@ export class ListaExtrato implements OnInit, OnDestroy {
           },
         });
       }
+    });
+  }
+
+  get pagedTransactions(): Transaction[] {
+    const allReversed = [...this.transactions].reverse();
+    const startIndex = this.pageIndex * this.pageSize;
+    return allReversed.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  handlePageEvent(e: PageEvent) {
+    this.pageIndex = e.pageIndex;
+    this.pageSize = e.pageSize;
+  }
+
+  formatarMoeda(valor: number): string {
+    return valor.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
     });
   }
 }

@@ -4,16 +4,10 @@
   height: 48px;
   font-size: 16px;
   font-weight: 500;
-  
-  &.mat-primary {
-    background-color: #004D61; 
-    color: #FFFFFF;
-  }
-
   // Disabled state styling
   &:disabled,
   &.mat-mdc-button-disabled {
-    background-color: #E0E0E0 !important; // Background color when disabled
-    color: #9E9E9E !important; // Text color when disabled
+    background-color: #dee9ea !important; // Background color when disabled
+    color: #cbcbcb !important; // Text color when disabled
   }
 }

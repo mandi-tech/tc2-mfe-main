@@ -6,6 +6,7 @@ import { TransactionBody } from '../../models/transaction.interface';
 import { InputComponent } from '../shared/input/input.component';
 import { SelectComponent } from '../shared/select/select.component';
 import { ButtonComponent } from '../shared/button/button.component';
+import { palette } from '../../constants/colors';
 
 @Component({
   selector: 'app-nova-transacao',
@@ -21,6 +22,8 @@ export class NovaTransacao {
   type: string = '';
   errorMessage: string | null = null;
 
+  public palette = palette;
+
   tiposDeTransacao: { value: string; label: string }[] = [
     { value: 'Debit', label: 'Débito' },
     { value: 'Credit', label: 'Crédito' },
@@ -29,7 +32,6 @@ export class NovaTransacao {
   get isFormInvalid(): boolean {
     return !this.type || !this.value || this.value <= 0;
   }
-
 
   constructor(private accountService: Account) {}
 
@@ -50,8 +52,8 @@ export class NovaTransacao {
     }
 
     const transactionBody: TransactionBody = {
-      accountId: accountId, 
-      type: this.type as any, 
+      accountId: accountId,
+      type: this.type as any,
       value: this.value,
       anexo: this.anexo,
       urlAnexo: this.urlAnexo,
@@ -74,6 +76,6 @@ export class NovaTransacao {
     this.anexo = '';
     this.value = 0;
     this.urlAnexo = '';
-    this.type = 'Debit';
+    this.type = '';
   }
 }

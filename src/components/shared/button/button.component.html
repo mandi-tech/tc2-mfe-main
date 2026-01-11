@@ -1,11 +1,11 @@
 <button
   mat-flat-button
-  [color]="color"
   [disabled]="disabled"
   [type]="type"
   (click)="handleClick()"
+  [style.background]="backgroundColor"
+  [style.color]="color"
   class="custom-button"
-  matButton="filled"
 >
   {{ label }}
 </button>

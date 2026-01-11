@@ -1,8 +1,8 @@
 .container-extrato {
-  background-color: #ffffff;
   border-radius: 8px;
   padding: 24px;
-  height: 96%;
+  position: fixed;
+  height: 81vh;
 
   h2 {
     font-weight: 700;
@@ -12,10 +12,10 @@
 
 .container-item {
   display: flex;
+  gap: 25px;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #47a13880;
-  padding: 8px 0;
+  padding: 10px 0;
 
   &:last-child {
     border-bottom: none;
@@ -29,7 +29,6 @@
 
     p {
       margin: 0;
-      color: #47a138;
       font-size: 0.9em;
     }
   }
@@ -42,9 +41,11 @@
 .actions {
   display: flex;
   gap: 8px;
+}
 
-  button {
-    background-color: #004d61;
-    color: #fff;
+@media screen and (max-width: 1210px) {
+  .container-extrato {
+    position: relative;
+    height: fit-content;
   }
 }
