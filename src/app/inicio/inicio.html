@@ -1,0 +1,41 @@
+<main [style.backgroundColor]="palette.verde100">
+  <app-topbar></app-topbar>
+  <section>
+    <app-navegador></app-navegador>
+    <div class="container-principal">
+      <div class="container-filtro">
+        <app-button
+          label="Ver tudo"
+          (onClick)="changeFilter('all')"
+          [color]="filterSelected === 'all' ? palette.branco : palette.cinza800"
+          [backgroundColor]="filterSelected === 'all' ? palette.laranja500 : palette.cinza300"
+        ></app-button>
+
+        <app-button
+          label="Hoje"
+          (onClick)="changeFilter('today')"
+          [color]="filterSelected === 'today' ? palette.branco : palette.cinza800"
+          [backgroundColor]="filterSelected === 'today' ? palette.laranja500 : palette.cinza300"
+        ></app-button>
+
+        <app-button
+          label="Última semana"
+          (onClick)="changeFilter('week')"
+          [color]="filterSelected === 'week' ? palette.branco : palette.cinza800"
+          [backgroundColor]="filterSelected === 'week' ? palette.laranja500 : palette.cinza300"
+        ></app-button>
+
+        <app-button
+          label="Último mês"
+          (onClick)="changeFilter('month')"
+          [color]="filterSelected === 'month' ? palette.branco : palette.cinza800"
+          [backgroundColor]="filterSelected === 'month' ? palette.laranja500 : palette.cinza300"
+        ></app-button>
+      </div>
+      <app-saldo-container></app-saldo-container>
+      <app-grafico-transacao></app-grafico-transacao>
+      <app-nova-transacao></app-nova-transacao>
+    </div>
+    <app-lista-extrato></app-lista-extrato>
+  </section>
+</main>

@@ -1,0 +1,39 @@
+.container-saldo {
+  min-height: 30vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+  }
+
+  .data-atual {
+    padding-top: 10px;
+    margin: 0;
+  }
+
+  .saldo-box {
+    margin: 0 auto;
+    padding-top: 20px;
+  }
+}
+
+.saldo-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 600px) {
+  .container-saldo {
+    grid-template-columns: 1fr;
+    text-align: center;
+
+    .saldo-box {
+      margin: 0 auto;
+      padding-top: 10px;
+    }
+  }
+}

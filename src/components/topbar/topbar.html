@@ -1,0 +1,11 @@
+<div
+  class="topbar-container"
+  [ngStyle]="{ 'background-color': palette.azul700, color: palette.branco }"
+>
+  <div class="topbar-content">
+    <h4>{{ username || 'Nome do usuário' }}</h4>
+    <button mat-icon-button (click)="logout()" title="Logout">
+      <mat-icon class="icone-logout" [style.color]="palette.laranja500">logout</mat-icon>
+    </button>
+  </div>
+</div>

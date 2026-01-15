@@ -1,0 +1,13 @@
+.custom-button {
+  width: 100%;
+  border-radius: 8px !important;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  // Disabled state styling
+  &:disabled,
+  &.mat-mdc-button-disabled {
+    background-color: #dee9ea !important; // Background color when disabled
+    color: #cbcbcb !important; // Text color when disabled
+  }
+}

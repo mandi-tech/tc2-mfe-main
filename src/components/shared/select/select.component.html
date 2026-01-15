@@ -1,0 +1,15 @@
+<mat-form-field appearance="outline" class="custom-select-field">
+  <mat-label *ngIf="label">{{ label }}</mat-label>
+  <mat-select
+    [id]="id"
+    [placeholder]="placeholder"
+    [(ngModel)]="value"
+    (selectionChange)="onChange($event.value); onTouched()"
+    [disabled]="disabled"
+    class="custom-select"
+  >
+    <mat-option *ngFor="let option of options" [value]="option.value">
+      {{ option.label }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
