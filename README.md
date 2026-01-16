@@ -4,7 +4,7 @@ O **tc2-mfe-main** é o microfrontend principal do projeto **Tech Challenge – 
 
 Ele contém as **funcionalidades centrais da aplicação** e é carregado dinamicamente pelo Shell após a autenticação do usuário.
 
----
+<br />
 
 ## 🧱 Responsabilidades
 
@@ -13,14 +13,14 @@ Ele contém as **funcionalidades centrais da aplicação** e é carregado dinami
 - Consumir APIs do backend
 - Integrar-se ao Shell via Module Federation
 
----
+<br />
 
 ## 🧩 Integração
 
 Este microfrontend é consumido por:
 - [tc2-mfe-shell](https://github.com/mandi-tech/tc2-mfe-shell)
 
----
+<br />
 
 ## 🚀 Development server
 
@@ -36,7 +36,7 @@ ng serve
 ```
 O app será recarregado automaticamente ao alterar os arquivos fonte.
 
----
+<br />
 
 ## 📦 Build
 
@@ -48,7 +48,7 @@ ng build
 # Os artefatos serão gerados no diretório dist/.
 ```
 
----
+<br />
 
 ## 📘 Documentação
 
@@ -56,7 +56,7 @@ A documentação completa da arquitetura e padrões do projeto está disponível
 
 ➡️ [tc2-documentation](https://github.com/mandi-tech/tc2-documentation)
 
----
+<br />
 
 ## 📄 Licença
 
