@@ -17,13 +17,16 @@
   </div>
 
   <div class="form-group">
-    <app-input
-      label="URL do anexo"
-      id="urlAnexo"
-      type="text"
-      [(ngModel)]="urlAnexo"
+    <app-upload
+      label="Anexo PDF (Substituir)"
+      [placeholder]="urlAnexo ? 'Arquivo já anexado' : 'Clique para selecionar novo PDF'"
+      [(ngModel)]="tempFile"
+      (ngModelChange)="handleFileUpload($event)"
       name="urlAnexo"
-    ></app-input>
+    ></app-upload>
+    <small *ngIf="urlAnexo" [style.color]="palette.azul700">
+      Arquivo atual: {{ anexo || 'Documento.pdf' }}
+    </small>
   </div>
 
   <div class="actions">

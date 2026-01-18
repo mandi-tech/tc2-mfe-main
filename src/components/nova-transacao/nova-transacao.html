@@ -22,25 +22,15 @@
         placeholder="Digite o valor da transação"
       ></app-input>
     </div>
+
     <div class="form-group">
-      <app-input
-        label="Anexo"
-        id="anexo"
-        type="text"
-        [(ngModel)]="anexo"
+      <app-upload
+        label="Anexo PDF"
+        placeholder="Clique para selecionar o PDF"
+        (ngModelChange)="handleFileUpload($event)"
+        [(ngModel)]="tempFile"
         name="anexo"
-        placeholder="Nome do anexo a ser enviado"
-      ></app-input>
-    </div>
-    <div class="form-group">
-      <app-input
-        label="URL do anexo"
-        id="urlAnexo"
-        type="text"
-        [(ngModel)]="urlAnexo"
-        name="urlAnexo"
-        placeholder=""
-      ></app-input>
+      ></app-upload>
     </div>
 
     <app-button
