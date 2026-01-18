@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Chart, ChartConfiguration, ChartOptions, ChartType, registerables } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { Subscription } from 'rxjs';
-import { Account } from '../../services/account/account';
+import { AccountService } from '../../services/account/account';
 import { saldoInicial } from '../../models/account.interface';
 import { palette } from '../../constants/colors';
 
@@ -48,7 +48,7 @@ export class GraficoTransacao implements OnInit, OnDestroy {
     },
   };
 
-  constructor(private accountService: Account) {}
+  constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.sub = this.accountService.transactions$.subscribe((response) => {

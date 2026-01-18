@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { FilterPeriod, GetAccountResp } from '../../models/account.interface';
 import {
   EditTransactionBody,
@@ -13,8 +13,8 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class Account {
-  private apiUrl = environment.apiUrl + 'account';
+export class AccountService {
+  private readonly apiUrl = `${environment.apiUrl}/account`;
   private http = inject(HttpClient);
 
   private allTransactions: any[] = [];
@@ -28,7 +28,7 @@ export class Account {
 
   getAccount(options?: { headers?: Record<string, string> }) {
     const headers = { ...this.getAuthHeaders(), ...options?.headers };
-    return this.http.get<GetAccountResp>(`${this.apiUrl}`, { headers });
+    return this.http.get<GetAccountResp>(this.apiUrl, { headers });
   }
 
   getAccountExtract(accountId: string): Observable<GetTransactionsResp> {
