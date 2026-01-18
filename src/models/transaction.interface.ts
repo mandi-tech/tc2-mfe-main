@@ -27,4 +27,5 @@ export interface EditTransactionBody {
   type: TipoTransacao;
   value: number;
   urlAnexo: string;
+  anexo: string;
 }

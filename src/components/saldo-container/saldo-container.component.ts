@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Account } from '../../services/account/account';
+import { AccountService } from '../../services/account/account';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,7 +25,7 @@ export class SaldoContainerComponent implements OnInit, OnDestroy {
 
   public palette = palette;
 
-  constructor(private accountService: Account) {}
+  constructor(private accountService: AccountService) {}
 
   ngOnInit(): void {
     this.firstName = getUsernameFromToken();

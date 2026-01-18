@@ -38,7 +38,7 @@
 						],
 						"styles": [
 							"src/styles.scss",
-              "@angular/material/prebuilt-themes/indigo-pink.css"
+							"@angular/material/prebuilt-themes/indigo-pink.css"
 						],
 						"main": "src/main.ts",
 						"outputPath": "dist/main-app",
@@ -48,6 +48,12 @@
 					},
 					"configurations": {
 						"production": {
+							"fileReplacements": [
+								{
+								"replace": "src/environments/environment.ts",
+								"with": "src/environments/environment.prod.ts"
+								}
+							],
 							"budgets": [
 								{
 									"type": "initial",
@@ -104,7 +110,8 @@
 						"assets": [
 							{
 								"glob": "**/*",
-								"input": "public"
+								"input": "public",
+								"output": "."
 							}
 						],
 						"styles": [
@@ -114,8 +121,8 @@
 				}
 			}
 		}
-  },
-  "cli": {
-    "analytics": false
-  }
+	},
+	"cli": {
+		"analytics": false
+	}
 }
