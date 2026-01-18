@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Account } from '../../services/account/account';
+import { AccountService } from '../../services/account/account';
 import { TransactionBody } from '../../models/transaction.interface';
 import { InputComponent } from '../shared/input/input.component';
 import { SelectComponent } from '../shared/select/select.component';
@@ -33,7 +33,7 @@ export class NovaTransacao {
     return !this.type || !this.value || this.value <= 0;
   }
 
-  constructor(private accountService: Account) {}
+  constructor(private accountService: AccountService) {}
 
   novaTransacao() {
     this.errorMessage = null;

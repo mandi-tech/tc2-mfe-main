@@ -3,7 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { Account } from '../../services/account/account';
+import { AccountService } from '../../services/account/account';
 import { Transaction } from '../../models/transaction.interface';
 import { EditTransactionDialog } from './edit-transaction-dialog/edit-transaction-dialog';
 import { Subscription } from 'rxjs';
@@ -24,7 +24,7 @@ export class ListaExtrato implements OnInit, OnDestroy {
   pageSize: number = 10;
   transactionsSubscription!: Subscription;
 
-  constructor(private accountService: Account, public dialog: MatDialog) {}
+  constructor(private accountService: AccountService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.accountService.transactions$.subscribe((response) => {
