@@ -14,6 +14,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../services/auth/auth.interceptor';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import localePt from '@angular/common/locales/pt';
+import { Upload } from '../components/shared/upload/upload';
 
 registerLocaleData(localePt);
 @NgModule({

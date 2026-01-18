@@ -7,11 +7,12 @@ import { InputComponent } from '../shared/input/input.component';
 import { SelectComponent } from '../shared/select/select.component';
 import { ButtonComponent } from '../shared/button/button.component';
 import { palette } from '../../constants/colors';
+import { Upload } from '../shared/upload/upload';
 
 @Component({
   selector: 'app-nova-transacao',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputComponent, SelectComponent, ButtonComponent],
+  imports: [CommonModule, FormsModule, InputComponent, SelectComponent, ButtonComponent, Upload],
   templateUrl: './nova-transacao.html',
   styleUrl: './nova-transacao.scss',
 })
@@ -34,6 +35,14 @@ export class NovaTransacao {
   }
 
   constructor(private accountService: AccountService) {}
+  tempFile: any = null;
+
+  handleFileUpload(fileData: { name: string; url: string }) {
+    if (fileData) {
+      this.anexo = fileData.name;
+      this.urlAnexo = fileData.url;
+    }
+  }
 
   novaTransacao() {
     this.errorMessage = null;
@@ -74,8 +83,9 @@ export class NovaTransacao {
 
   private resetForm() {
     this.anexo = '';
-    this.value = 0;
     this.urlAnexo = '';
+    this.value = 0;
     this.type = '';
+    this.tempFile = null;
   }
 }

@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { AccountService } from '../../services/account/account';
 import { Transaction } from '../../models/transaction.interface';
-import { EditTransactionDialog } from './edit-transaction-dialog/edit-transaction-dialog';
+import { EditTransactionDialog } from './edita-transacao/edita-transacao';
 import { Subscription } from 'rxjs';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { palette } from '../../constants/colors';

@@ -7,6 +7,7 @@ import { SelectComponent } from '../../shared/select/select.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { Transaction, EditTransactionBody } from '../../../models/transaction.interface';
 import { palette } from '../../../constants/colors';
+import { Upload } from '../../shared/upload/upload';
 
 @Component({
   selector: 'app-edit-transaction-dialog',
@@ -18,30 +19,17 @@ import { palette } from '../../../constants/colors';
     InputComponent,
     SelectComponent,
     ButtonComponent,
+    Upload,
   ],
-  templateUrl: './edit-transaction-dialog.html',
-  styles: [
-    `
-      .dialog-container {
-        padding: 24px;
-        min-width: 400px;
-      }
-      .form-group {
-        margin-bottom: 16px;
-      }
-      .actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 8px;
-        margin-top: 24px;
-      }
-    `,
-  ],
+  templateUrl: './edita-transacao.html',
+  styleUrl: './edita-transacao.scss',
 })
 export class EditTransactionDialog {
   value: number;
   urlAnexo: string;
+  anexo: string;
   type: string;
+  tempFile: any = null;
 
   tiposDeTransacao: { value: string; label: string }[] = [
     { value: 'Debit', label: 'Débito' },
@@ -55,13 +43,22 @@ export class EditTransactionDialog {
   ) {
     this.value = data.value;
     this.urlAnexo = data.urlAnexo;
+    this.anexo = data.anexo || '';
     this.type = data.type;
+  }
+
+  handleFileUpload(fileData: { name: string; url: string }) {
+    if (fileData) {
+      this.anexo = fileData.name;
+      this.urlAnexo = fileData.url;
+    }
   }
 
   save() {
     const result: EditTransactionBody = {
       value: this.value,
       urlAnexo: this.urlAnexo,
+      anexo: this.anexo,
       type: this.type as any,
     };
     this.dialogRef.close(result);
